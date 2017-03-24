@@ -56,7 +56,7 @@
 
 // sda = mosi
 // a0 = dc - data/command
-DigitalPin	pinSCK(&PORTB, PORTB5), pinSDA(&PORTB, PORTB3), pinA0(&PORTC, PORTC5), pinRESET(&PORTC, PORTC4), pinCS(&PORTC, PORTC3);
+DigitalPin	pinSCK(&PORTB, PORTB5), pinSDA(&PORTB, PORTB3), pinA0(&PORTB, PORTB1), pinRESET(&PORTC, PORTC3), pinCS(&PORTB, PORTB2);
 ILI9163 	lcd(&pinA0, &pinRESET, &pinCS);
 /************************************************************************************************************************************************/
 /* Main entry point                                                    																			*/
