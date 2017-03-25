@@ -43,7 +43,7 @@
 #include "../config.h"
 
 // define size
-#define ILI9163_HEIGHT 						128
+#define ILI9163_HEIGHT 						160
 #define ILI9163_WIDTH 						128
 
 

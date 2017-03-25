@@ -62,17 +62,12 @@ ILI9163 	lcd(&pinA0, &pinRESET, &pinCS);
 /* Main entry point                                                    																			*/
 /************************************************************************************************************************************************/
 int main(void) {
-	
-	RED_LED_DDR |= (1 << RED_LED_PIN);
-	GREEN_LED_DDR |= (1 << GREEN_LED_PIN);
-	RED_LED_PORT |= (1 << RED_LED_PIN);
-	
+		
 	spi_init();
 	
 	lcd.init(ILI9163::ROT270);
 	lcd.drawClear(BLACK);
-	GREEN_LED_PORT |= (1 << GREEN_LED_PIN);
-	return 0;
+	
 	// demo screen 1
 	for (int i=0;i<21;i++)
 			for (int j=0;j<16;j++)
@@ -102,4 +97,6 @@ int main(void) {
 		lcd.drawLine(i-1, y0, i, y1, RED);
 		x0 = x1; y0 = y1;
 	}
+	
+	while(true); //END
 }

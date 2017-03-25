@@ -35,14 +35,6 @@
 #include "../spi/spi.h"
 #include "../config.h"
 
-#define GREEN_LED_PIN 0
-#define GREEN_LED_DDR DDRB
-#define GREEN_LED_PORT PORTB
-
-#define RED_LED_PIN 7
-#define RED_LED_DDR DDRD
-#define RED_LED_PORT PORTD
-
 // Initialise the display with the require screen orientation
 void ILI9163::init(Rotation rotation) {
 	

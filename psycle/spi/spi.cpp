@@ -31,14 +31,14 @@
  * set spi speed and settings
  */
 void spi_init(void) {
-	/*SPI_DDR |= (1<<SPI_MOSI) | (1<<SPI_SCK) | (1<<SPI_MISO); 	// set MOSI and SCK as output
-	SPI_PORT|= (1<<SPI_MOSI) | (1<<SPI_SCK) | (1<<SPI_MISO);
+	SPI_DDR |= (1<<SPI_MOSI) | (1<<SPI_SCK) | (1<<SPI_MISO); 	// set MOSI and SCK as output
+	SPI_PORT |= (1<<SPI_MOSI) | (1<<SPI_SCK) | (1<<SPI_MISO); //TODO check this in ds
 	SPCR |= (1<<SPE) | (1<<MSTR);
-	SPSR = 0x1; // needed on mega128*/
-	PORTB = 0b10110100;			/* Enable drivers */
-	DDRB  = 0b11000111;
-	SPCR = (1<<SPE) | (1<<MSTR);
-	SPSR |= (1<<SPI2X);
+	SPSR |= (1<<SPI2X); // needed on mega128*/
+// 	PORTB = 0b10110100;			/* Enable drivers */
+// 	DDRB  = 0b11000111;
+// 	SPCR = (1<<SPE) | (1<<MSTR);
+// 	SPSR |= (1<<SPI2X);
 }
 
 
