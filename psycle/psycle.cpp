@@ -37,7 +37,8 @@
 #include "ili9163/ili9163lcd.h"
 #include "ili9163/colors.h"
 #include "spi/spi.h"
-#include "image1.h"
+
+#include "views/velocity_simple.h"
 
 // FUSES =
 // {
@@ -54,10 +55,25 @@
 #define RED_LED_DDR DDRD
 #define RED_LED_PORT PORTD
 
+#define VELOCITY_DIG_N 3
+#define INN2MM(x) 254*x
+
+void dec2str(uint8_t x, char* str_msc){
+	*str_msc-- = '\0';
+	uint8_t prev_x;
+	for(uint8_t i=0; i<VELOCITY_DIG_N; ++i){
+		prev_x = x; x/=10;
+		char dig = '0'+prev_x-x*10;
+		*str_msc-- = (dig=='0'?' ':dig);
+	}
+}
+
+
 // sda = mosi
 // a0 = dc - data/command
 DigitalPin	pinSCK(&PORTB, PORTB5), pinSDA(&PORTB, PORTB3), pinA0(&PORTB, PORTB1), pinRESET(&PORTC, PORTC3), pinCS(&PORTB, PORTB2);
 ILI9163 	lcd(&pinA0, &pinRESET, &pinCS);
+
 /************************************************************************************************************************************************/
 /* Main entry point                                                    																			*/
 /************************************************************************************************************************************************/
@@ -68,35 +84,17 @@ int main(void) {
 	lcd.init(ILI9163::ROT270);
 	lcd.drawClear(BLACK);
 	
-	// demo screen 1
-	for (int i=0;i<21;i++)
-			for (int j=0;j<16;j++)
-				lcd.drawChar(textX(i,1), textY(j,1), '0' + rand()%10, 1, LIGHTGREY, BLACK);
-	//21x16
-	lcd.drawString(textX(4,1), textY(8,1), 1, YELLOW, BLUE, "Hello World!");
-	lcd.drawString(textX(1,1), textY(9,1), 1, YELLOW, MAGENTA, "www.pocketmagic.net");
-
-	// demo image
-// 	for (int y=0;y<128;y++)
-// 		for (int x=0;x<128;x++)
-// 			lcd.drawPixel(x,y, pgm_read_word(&image1[x+y*128]));
-	_delay_ms(2000);
-
-	// demo screen 2
-	lcd.drawClear(BLACK);
-	lcd.drawString(textX(1,1), textY(15,1), 1, YELLOW, MAGENTA,"www.pocketmagic.net");
-	// draw axis
-	lcd.drawString(textX(0,1), textY(0,1), 1, GREEN, BLACK, "30*sin(x/2)*cos(x/8)");
-	lcd.drawChar(textX(10,1), textY(8,1), 'O',1, GREEN, BLACK);
-	lcd.drawLine(0,64,127,64, WHITE);
-	lcd.drawLine(64,0,64,127, WHITE);
-	// draw function
-	int x0 = -64, y0 = 30*sin(0)*cos(0) + 64;
-	for (int i=1; i<128;i++) {
-		int x1 = -64+i, y1 = 30*sin(x1/2)*cos(x1/8) + 64;
-		lcd.drawLine(i-1, y0, i, y1, RED);
-		x0 = x1; y0 = y1;
+/*****VELOCITY*****/
+	VELOCITY_LIN velocity_lin;
+	velocity_lin.init(INN2MM(26));
+	
+	char velocity_str[VELOCITY_DIG_N];
+	
+	while(true){
+		uint8_t velocity = velocity_lin.get_velocity();
+		dec2str(velocity, velocity_str);
+		lcd.drawString(0, 80, sizeof(velocity_str)/sizeof(velocity_str[0]), YELLOW, BLACK, velocity_str);
+		_delay_ms(500);
 	}
 	
-	while(true); //END
 }
