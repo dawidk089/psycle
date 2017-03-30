@@ -15,7 +15,7 @@
 
 class Interrupt{
 public:
-	Interrupt(void);
+	//Interrupt(void);
 	static void Register(uint8_t interrupt_number, Interrupt* inThisPtr);
 	//Interrupt wrapper list
 	static void Interrupt_5(void);

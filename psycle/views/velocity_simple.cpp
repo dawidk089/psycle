@@ -37,7 +37,7 @@ void VELOCITY_LIN::init(uint16_t diameter_mm){
 }
 
 void VELOCITY_LIN::add_rot_time(uint16_t t_unit){
-	this->t_unit_coll[t_unit_pos++]=t_unit;
+	t_unit_coll[t_unit_pos++]=t_unit;
 }
 
 uint8_t VELOCITY_LIN::get_velocity(){
@@ -48,8 +48,8 @@ uint8_t VELOCITY_LIN::get_velocity(){
 
 VELOCITY_LIN::VELOCITY_LIN(void){
 	//InterruptPtr = new ICP1Interrupt(this);
-	//InterruptPtr = &objICP1Interrupt;
-	//InterruptPtr->setOwnerPtr(this);
+	InterruptPtr = &objICP1Interrupt;
+	InterruptPtr->setOwnerPtr(this);
 }
 
 
